@@ -1,0 +1,223 @@
+<!-- Suheera Tanvir 255 Project -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cover</title>
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        #div1 {
+            height: 310px;
+            width: 500px;
+            border: 2px solid darkblue;
+            border-radius: 60px;
+            margin: 100px auto;
+            opacity: 1;
+            background: #C988FC url("1pic.jpg") no-repeat local 50% 50%;
+            font-family: 'Lobster', cursive;
+        }
+
+        #div1 span {
+            position: relative;
+            left: 40px;
+            top: -25px;
+            font-size: larger;
+        }
+
+        #iconplay {
+            width: 60px;
+            position: relative;
+            left: 290px;
+            cursor: pointer;
+        }
+
+        #div2 {
+            height: 250px;
+            width: 494px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: -10px;
+            border-radius: 60px;
+            background: #5638CE url("3pic.jpg") repeat local 50% 50%;
+        }
+
+        #img1 {
+            width: 150px;
+            margin-top: 50px;
+        }
+
+        #div4 label {
+            padding-left: 170px;
+        }
+
+        #difficulty {
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #gamediv {
+            width: 700px;
+            height: 700px;
+            display: none;
+            margin: auto;
+            border-radius: 10px;
+            background: #250240 url("darkp.jpg") repeat local 50% 50%;
+        }
+
+        #gameboard {
+            width: 680px;
+            height: 500px;
+            margin: auto;
+            border: 3px dotted whitesmoke;
+            border-radius: 10px;
+            position: relative;
+            top: 8px;
+            background: #9623F5 url("pp.jpg") no-repeat local 50% 50%;
+        }
+
+        .tile {
+            position: absolute;
+            width: 100px;
+            height: 80px;
+            background: darkcyan url("tilebg.jpg") no-repeat local 50% 50%;
+            border: 2px solid white;
+            border-radius: 10px;
+            line-height: 80px;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 60px;
+            color: wheat;
+        }
+
+        .tile span {
+            opacity: 0;
+        }
+
+        .result{
+            width: 60px;
+        }
+
+        #resMessage{
+            text-align: center;
+            font-family: 'Lobster', cursive;
+            color: cornsilk;
+        }
+    </style>
+    <script src="jquery-3.4.1.js"></script>
+    <script>
+
+        $(function () {
+            $('#img1').animate({ 'border-radius': '180px' }, 2000);
+
+        });
+
+        $(function () {
+            $('#iconplay').click(function () {
+                /*$('#div1').fadeOut(2000)*/
+                $('#div1').animate({ 'margin-left': '700px', opacity: 0 }, 2000, function () {
+                    $(this).css('display', 'none'); /*iss function ke andar jo daalein ge, animation
+                     ke baad ho ga. none se it wont just have no opacity, it will completely stop existing
+                     in the document*/
+
+                    $('#gamediv').fadeIn(2000);
+                    $('#gamediv').css('display', 'block');
+                    var level = $("#difficulty").children("option:selected").val();
+                    level = parseFloat(level);
+                    //console.log(level);
+
+                    var i, j;     //box placemnet coords
+                    for (var k = 0; k < level; k++) {
+                        i = Math.floor(Math.random() * 420);
+                        j = Math.floor(Math.random() * 580)
+                        $("#gameboard").append("<div class='tile' id='tile" + (k + 1) + "'> <span> " + (k + 1) + "</span> </div>")
+                            .children(`#tile${k + 1}`).css({
+                                left: `${j}px`,
+                                top: `${i}px`
+                            });
+                    }
+
+                    var gap = 0;
+                    var noOfClick = 1;
+
+                    for (var p = 1; p <= level; p++) {
+                        $(`#tile${p} span`).delay(gap).animate({ opacity: 1 }, 800, function () { $(this).animate({ opacity: 0 }, 1000 - (level * 25)) }); //to have the tile visible for a variable amount of time, according to seconds
+                        gap += 800 + (1000 - (level * 25));
+
+                    };
+
+                    for(var m = 1; m<=level; m++){
+                        $(`#tile${m}`).one("click", function(){ $(this).children("span").css("display", "none");                  
+                            if(noOfClick == $(this).children("span").text())
+                            {
+                                $(this).append("<img class='result' src='tick.png'>");
+                                if($(this).children("span").text()==level){
+                                    $("#resMessage").html("<h1> YOU WON :) </h1> <h3> press f5 to play again </h3>");
+                                }
+                            } else 
+                            {
+                                $(this).append("<img class='result' src='close.png'>");
+                                $("#resMessage").html("<h1> YOU FAILED >:( </h1> <h3> press f5 to try again </h3>");
+                            }
+                            noOfClick++;
+                        });
+                    }
+
+
+                });
+            });
+        });
+
+
+
+
+    </script>
+
+</head>
+
+<body>
+    <div id="div1">
+        <span>Memory Test</span>
+        <img id="iconplay" src="playicon.png" alt="">
+        <div id="div2">
+
+            <div id="div3">
+                <img id="img1" src="abc1.jpg" alt="">
+            </div>
+
+            <div id="div4">
+                <h1>CTIS 255 PROJECT</h1>
+                <h4>FALL 2019</h4>
+                <h1>SUHEERA TANVIR</h1>
+                <label for="difficulty">difficulty</label>
+                <select name="sel" id="difficulty">
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div id="gamediv">
+
+        <div id="gameboard">
+
+        </div>
+
+        <div id="resMessage">
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
