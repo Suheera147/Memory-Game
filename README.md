@@ -1,0 +1,2 @@
+# Memory-Game
+A visual memory tester game, implemented using HTML, CSS, Javascript and JQuery. The user has to select a difficulty on the cover page and then click start. After that, a game board will open with a number of tiles corresponding to the difficulty that was selected. The tiles are numbered, with each number being displayed in order for a brief amount of time. The higher the difficulty, the shorter the amount of time the numbers are displayed. The goal is to click the tiles in order of the numbers they were displayed in.
